@@ -1,7 +1,9 @@
 package br.com.gustavo.airports.service;
 
 import br.com.gustavo.airports.DTO.AirportMinDTO;
+import br.com.gustavo.airports.DTO.AirportNearMeDTO;
 import br.com.gustavo.airports.entities.Airport;
+import br.com.gustavo.airports.projections.AirportNearMeProjection;
 import br.com.gustavo.airports.repositories.AirportRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +36,19 @@ public class AirportService {
                 .map(x -> new AirportMinDTO(x)).toList();
         return resultDTO;
     }
-    public Airport findByIataCode(String iataCode){
+
+    public Airport findByIataCode(String iataCode) {
         Airport result = airportRepository.findByIataCode(iataCode);
         return result;
     }
+
+    public List<AirportNearMeDTO> findNearMe(double latitude, double longitude) {
+        List<AirportNearMeProjection> resultNearAirports = airportRepository.findNearMe(latitude, longitude);
+        
+        List<AirportNearMeDTO> resultDTO = resultNearAirports.stream()
+                .map(x -> new AirportNearMeDTO(x)).toList();
+
+        return resultDTO;
+    }
+    
 }

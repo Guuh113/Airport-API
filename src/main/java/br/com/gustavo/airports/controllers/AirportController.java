@@ -1,5 +1,6 @@
 package br.com.gustavo.airports.controllers;
 
+import br.com.gustavo.airports.DTO.AirportMinDTO;
 import br.com.gustavo.airports.entities.Airport;
 import br.com.gustavo.airports.service.AirportService;
 import java.util.List;
@@ -15,24 +16,34 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class AirportController {
+
     @Autowired
     private AirportService airportService;
-    
+
     @GetMapping("/airport")
-    public List<Airport> findAll(){
+    public List<Airport> findAll() {
         List<Airport> result = airportService.findAll();
         return result;
     }
+
     @GetMapping("/city/{cityName}")
-    public ResponseEntity<List<Airport>> findByCityIgnoreCase(@PathVariable String cityName){
+    public ResponseEntity<List<Airport>> findByCityIgnoreCase(@PathVariable String cityName) {
         List<Airport> result = airportService.findByCity(cityName);
-        if (result.isEmpty()){
-            return  ResponseEntity.notFound().build();
-        }else{
-         return ResponseEntity.ok(result);  
-        }  
-        
+        if (result.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(result);
+        }
+
+    }
+
+    @GetMapping("/county/{countryName}")
+    public ResponseEntity<List<AirportMinDTO>> findByCountryIgnoreCase(@PathVariable String countryName) {
+        List<AirportMinDTO> result = airportService.findByCountry(countryName);
+        if (result.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(result);
+        }
     }
 }
-
-

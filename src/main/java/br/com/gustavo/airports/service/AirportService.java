@@ -1,5 +1,6 @@
 package br.com.gustavo.airports.service;
 
+import br.com.gustavo.airports.DTO.AirportMinDTO;
 import br.com.gustavo.airports.entities.Airport;
 import br.com.gustavo.airports.repositories.AirportRepository;
 import java.util.List;
@@ -20,9 +21,17 @@ public class AirportService {
         List<Airport> result = airportRepository.findAll();
         return result;
     }
-    public List<Airport> findByCity(String city){
+
+    public List<Airport> findByCity(String city) {
         List<Airport> result = airportRepository.findByCityIgnoreCase(city);
         return result;
-                
+
+    }
+
+    public List<AirportMinDTO> findByCountry(String country) {
+        List<Airport> resultAirport = airportRepository.findByCountryIgnoreCase(country);
+        List<AirportMinDTO> resultDTO = resultAirport.stream()
+                .map(x -> new AirportMinDTO(x)).toList();
+        return resultDTO;
     }
 }

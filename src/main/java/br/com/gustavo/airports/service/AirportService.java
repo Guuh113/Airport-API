@@ -34,4 +34,8 @@ public class AirportService {
                 .map(x -> new AirportMinDTO(x)).toList();
         return resultDTO;
     }
+    public Airport findByIataCode(String iataCode){
+        Airport result = airportRepository.findByIataCode(iataCode);
+        return result;
+    }
 }
